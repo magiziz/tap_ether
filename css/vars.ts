@@ -10,8 +10,8 @@ export const colors = {
   green60: "#1DB847",
   green70: "#189943",
   green80: "#09752D",
-  green90: "#005723",
-  green100: "#003816",
+  green90: "#2F2C22",
+  green100: "#1D1F21",
 
   blueA10: "rgba(14, 118, 253, 0.1)",
   blue10: "#EDF9FF",
@@ -74,7 +74,7 @@ export const colors = {
   orange100: "#3D1E0A",
 
   yellowA10: "rgba(250, 203, 15, 0.1)",
-  yellow10: "#FFFBE0",
+  yellow10: "#FFD859",
   yellow20: "#FFF5C2",
   yellow30: "#FFEE99",
   yellow40: "#FFE566",
@@ -91,9 +91,9 @@ export const colors = {
   grey40: "rgba(16, 21, 31, 0.16)",
   grey50: "rgba(22, 25, 31, 0.24)",
   grey60: "rgba(26, 28, 31, 0.36)",
-  grey70: "rgba(27, 29, 31, 0.5)",
-  grey80: "rgba(27, 29, 31, 0.7)",
-  grey90: "rgba(27, 29, 31, 0.88)",
+  grey70: "rgba(255, 255, 255, 0.03)",
+  grey80: "#242529",
+  grey90: "#95969B",
   grey100: "#000",
 
   white10: "#1B1C1E",
@@ -119,6 +119,8 @@ export const colors = {
   blueGrey100: "#242529",
 
   cyan50: "#00E7F3",
+
+  black: "#000000",
 };
 
 export const spaces = {
@@ -165,6 +167,10 @@ export const spaces = {
   "100px": 100,
   "104px": 104,
   "120px": 120,
+  "200px": 200,
+  "280px": 280,
+  "320px": 320,
+  "384px": 384,
   "500px": 500,
 
   full: "100%" as DimensionValue,
