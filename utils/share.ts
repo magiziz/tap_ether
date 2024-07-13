@@ -79,7 +79,7 @@ export async function getNfcShareFile({
     } else {
       alert("Sharing is not available on your phone. Please turn on sharing.");
     }
-  } catch (error) {
+  } catch {
     alert("An error occurred while trying to access NFC");
   }
 

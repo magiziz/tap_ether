@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { mainnet, polygon, arbitrum, optimism, base } from "@wagmi/core/chains";
 import Config from "react-native-config";
 import type { Address, WalletClient } from "viem";
@@ -76,7 +76,7 @@ export function useFetchWalletConnectUri({
   onConnect,
 }: UseWalletConnectUriParameters) {
   return useMutation({
-    mutationKey: [],
+    mutationKey: ["fetchWalletConnectUri"],
     mutationFn: ({ mobileLink }: { mobileLink: string }) =>
       getWalletConnectUri({ mobileLink, onConnect }).then(
         (qrUri) => qrUri as string

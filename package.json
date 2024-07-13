@@ -26,6 +26,7 @@
     "@walletconnect/react-native-compat": "^2.13.3",
     "@walletconnect/web3wallet": "^1.12.3",
     "@web3modal/wagmi-react-native": "^2.0.0-alpha.4",
+    "big.js": "^6.2.1",
     "clsx": "^2.1.1",
     "expo": "~51.0.18",
     "expo-asset": "^10.0.10",
@@ -60,6 +61,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@types/big.js": "^6.2.2",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.2.45",
     "@types/react-native-dotenv": "^0.2.2",

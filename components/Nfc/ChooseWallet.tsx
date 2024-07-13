@@ -38,7 +38,6 @@ function Wallet({ src, name, mobileLink, onPress }: WalletProps) {
       >
         <Image
           source={src}
-          key={name}
           style={{ height: 30, width: 30, borderRadius: 8 }}
         />
 
@@ -66,7 +65,6 @@ export function ChooseWallet() {
       setStep(Step.ReceivePayment);
     },
   });
-  console.log({ walletConnectUri, isPendingWalletConnectUri });
 
   const { isLoading: isLoadingNfc } = useNfc({
     wcUri: walletConnectUri!,
@@ -82,7 +80,7 @@ export function ChooseWallet() {
         maxWidth="320px"
       >
         <Spinner
-          color="#fff"
+          color="#95969B"
           height={50}
           width={50}
           style={{ marginTop: 12 }}

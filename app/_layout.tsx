@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import AppKitProvider from "@/components/AppKitProvider/AppKitProvider";
 import { Layout } from "@/components/Layout/Layout";
+import { chainImages } from "@/utils/chains";
+import { tokens } from "@/utils/tokens";
 import { wallets } from "@/utils/wallets";
 
 const App = () => {
@@ -20,9 +22,11 @@ const App = () => {
       });
 
     const preloadImages = async () => {
-      const images = wallets.map((wallet) =>
-        Asset.fromModule(wallet.src).downloadAsync()
-      );
+      const images = [
+        ...wallets,
+        ...Object.values(tokens),
+        ...Object.values(chainImages),
+      ].map((wallet) => Asset.fromModule(wallet.src).downloadAsync());
       await Promise.all(images);
     };
 

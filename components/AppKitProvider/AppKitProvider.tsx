@@ -1,6 +1,6 @@
 import "@walletconnect/react-native-compat";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { mainnet, polygon, arbitrum, optimism, base } from "@wagmi/core/chains";
+import { mainnet, optimism, base } from "@wagmi/core/chains";
 import {
   createWeb3Modal,
   defaultWagmiConfig,
@@ -21,7 +21,7 @@ export const metadata = {
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
-export const chains = [mainnet, polygon, optimism, arbitrum, base] as const;
+export const chains = [mainnet, optimism, base] as const;
 
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
