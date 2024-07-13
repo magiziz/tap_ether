@@ -9,6 +9,7 @@ interface ButtonProps {
   textProps?: TextProps;
   boxProps?: BoxProps;
   onPress?: () => void;
+  withText?: boolean;
 }
 
 export function Button({
@@ -16,6 +17,7 @@ export function Button({
   onPress,
   textProps = {},
   boxProps = {},
+  withText = true,
 }: ButtonProps) {
   return (
     <Touchable
@@ -26,7 +28,7 @@ export function Button({
       }}
     >
       <Box {...boxProps}>
-        <Text {...textProps}>{children}</Text>
+        {withText ? <Text {...textProps}>{children}</Text> : children}
       </Box>
     </Touchable>
   );

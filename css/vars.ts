@@ -90,7 +90,7 @@ export const colors = {
   grey30: "rgba(16, 21, 31, 0.1)",
   grey40: "rgba(16, 21, 31, 0.16)",
   grey50: "rgba(22, 25, 31, 0.24)",
-  grey60: "rgba(26, 28, 31, 0.36)",
+  grey60: "rgba(60, 66, 66, 0.1)",
   grey70: "rgba(255, 255, 255, 0.03)",
   grey80: "#242529",
   grey90: "#95969B",

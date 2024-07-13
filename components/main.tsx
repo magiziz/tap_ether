@@ -34,6 +34,7 @@ type WrapperProps<T extends unknown> = T & {
   fontFamily?: "SF-Bold" | "SF-Medium" | "SF-Regular" | "SF-Semibold";
   textAlign?: TextStyle_reactNative["textAlign"];
   borderWidth?: TextStyle_reactNative["borderWidth"];
+  flexWrap?: TextStyle_reactNative["flexWrap"];
   gap?: Spaces;
   borderRadius?: Spaces;
   borderColor?: Colors;
@@ -81,6 +82,7 @@ export function Wrapper<T>({
   gap,
   borderColor,
   borderWidth,
+  flexWrap,
   borderRadius,
   width,
   maxWidth,
@@ -112,6 +114,7 @@ export function Wrapper<T>({
       flexDirection,
       borderWidth,
       opacity,
+      flexWrap,
       borderColor: getProperty(colors, borderColor),
       fontSize: getProperty(spaces, fontSize),
       gap: getProperty(spaces, gap) as number | undefined,
@@ -144,6 +147,7 @@ export function Wrapper<T>({
       flexDirection,
       borderWidth,
       opacity,
+      flexWrap,
       borderColor,
       fontSize,
       gap,

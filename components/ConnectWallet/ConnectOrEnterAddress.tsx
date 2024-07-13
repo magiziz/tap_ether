@@ -1,5 +1,5 @@
-import { useWeb3Modal } from "@web3modal/wagmi-react-native";
-import React, { useState } from "react";
+import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi-react-native";
+import React, { useEffect, useState } from "react";
 import { useAccountEffect, useDisconnect } from "wagmi";
 
 import { Button } from "../Button/Button";
@@ -8,13 +8,24 @@ import { Touchable } from "../Touchable/Touchable";
 
 import { useReceiver } from "@/store/receiver";
 import { useEnsAddress } from "@/hooks/useEnsAddress";
-import { Address, checksumAddress, isAddress } from "viem";
+import { isAddress } from "viem";
 import { toCheckSumAddress } from "@/utils/toChecksumAddress";
 import { Step, useStep } from "@/store/steps";
+import { Spinner } from "../Spinner/Spinner";
 
 export function ConnectOrEnterAddress() {
-  const { open } = useWeb3Modal();
+  const { open: openWeb3Modal } = useWeb3Modal();
+  const { open: isWeb3ModalOpen } = useWeb3ModalState();
+
   const { disconnect } = useDisconnect();
+
+  useEffect(() => {
+    try {
+      disconnect();
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const { setStep } = useStep();
 
@@ -37,7 +48,7 @@ export function ConnectOrEnterAddress() {
     onConnect: ({ address }) => {
       setAddress(toCheckSumAddress(address));
       disconnect();
-      setStep(Step.ChooseToken);
+      setStep(Step.Nfc);
     },
   });
 
@@ -63,6 +74,26 @@ export function ConnectOrEnterAddress() {
           opacity={isLoadingEnsAddress ? 0.5 : 1}
         />
 
+        <Touchable
+          active="shrink"
+          hover="grow"
+          viewStyle={{ marginRight: "auto", marginLeft: 58 }}
+          touchableOpacityProps={{
+            onPress: () => {
+              setShouldEnterWalletAddress(false);
+            },
+          }}
+        >
+          <Text
+            textAlign="left"
+            color="grey90"
+            fontFamily="SF-Bold"
+            fontSize="12px"
+          >
+            Connect Wallet
+          </Text>
+        </Touchable>
+
         {address && (
           <Button
             boxProps={{
@@ -78,7 +109,7 @@ export function ConnectOrEnterAddress() {
             }}
             onPress={() => {
               setAddress(toCheckSumAddress(address));
-              setStep(Step.ChooseToken);
+              setStep(Step.Nfc);
             }}
           >
             {`Confirm`}
@@ -92,19 +123,30 @@ export function ConnectOrEnterAddress() {
     <Box flexDirection="column" alignItems="center" gap="14px" width="full">
       <Button
         boxProps={{
+          display: "flex",
+          flexDirection: "row",
           background: "yellow10",
           padding: "12px",
           fontSize: "16px",
           borderRadius: "80px",
         }}
-        textProps={{
-          textAlign: "center",
-          color: "black",
-          fontFamily: "SF-Bold",
-        }}
-        onPress={open}
+        onPress={openWeb3Modal}
+        withText={false}
       >
-        {`Connect Wallet`}
+        {isWeb3ModalOpen && (
+          <Spinner
+            color="#000000"
+            height={15}
+            width={15}
+            style={{ marginRight: 8 }}
+          />
+        )}
+
+        <Text
+          textAlign="center"
+          color="black"
+          fontFamily="SF-Bold"
+        >{`Connect Wallet`}</Text>
       </Button>
 
       <Text color="grey90" fontFamily="SF-Bold">

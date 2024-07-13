@@ -1,22 +1,6 @@
 import "@walletconnect/react-native-compat";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  mainnet,
-  polygon,
-  arbitrum,
-  optimism,
-  base,
-  bsc,
-  avalanche,
-  zora,
-  blast,
-  zkSync,
-  zetachain,
-  ronin,
-  klaytn,
-  sei,
-  mantle,
-} from "@wagmi/core/chains";
+import { mainnet, polygon, arbitrum, optimism, base } from "@wagmi/core/chains";
 import {
   createWeb3Modal,
   defaultWagmiConfig,
@@ -30,30 +14,14 @@ const queryClient = new QueryClient();
 
 const projectId = Config.PROJECT_ID!;
 
-const metadata = {
+export const metadata = {
   name: "Web3Modal RN",
   description: "Web3Modal RN Example",
   url: "https://web3modal.com",
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
-const chains = [
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  base,
-  bsc,
-  avalanche,
-  zora,
-  blast,
-  zkSync,
-  zetachain,
-  ronin,
-  klaytn,
-  sei,
-  mantle,
-] as const;
+export const chains = [mainnet, polygon, optimism, arbitrum, base] as const;
 
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 

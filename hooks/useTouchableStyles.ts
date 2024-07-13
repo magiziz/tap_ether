@@ -13,8 +13,8 @@ export const hoverScaleValues = {
 };
 
 export const activeScaleValues = {
-  shrink: 0.95,
-  shrinkSm: 0.9,
+  shrink: 0.9,
+  shrinkSm: 0.85,
 };
 
 export const useTouchableStyle = ({
@@ -27,7 +27,7 @@ export const useTouchableStyle = ({
     if (active) {
       Animated.timing(scale, {
         toValue: activeScaleValues[active as keyof typeof activeScaleValues],
-        duration: 100,
+        duration: 50,
         useNativeDriver: true,
       }).start();
     }
@@ -37,13 +37,13 @@ export const useTouchableStyle = ({
     if (hover) {
       Animated.timing(scale, {
         toValue: hoverScaleValues[hover as keyof typeof hoverScaleValues],
-        duration: 100,
+        duration: 50,
         useNativeDriver: true,
       }).start();
     } else {
       Animated.timing(scale, {
         toValue: 1,
-        duration: 100,
+        duration: 50,
         useNativeDriver: true,
       }).start();
     }
