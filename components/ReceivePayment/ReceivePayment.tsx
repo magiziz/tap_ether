@@ -1,25 +1,42 @@
-import { useState } from "react";
-
 import { Box } from "../main";
 
-import { Introduction } from "./Introduction";
 import { ChooseToken } from "./ChooseToken";
-import { usePayer } from "@/store/payer";
-import { RequestToken } from "./RequestToken";
-import { usePayment } from "@/store/payment";
 import { Confirmation } from "./Confirmation";
+import { Introduction } from "./Introduction";
+import { RequestToken } from "./RequestToken";
+
+import { usePayer } from "@/store/payer";
+import { usePayment } from "@/store/payment";
+import { useReceiver } from "@/store/receiver";
 
 export function ReceivePayment() {
-  const { token } = usePayer();
-  const { amount, erc20ContractAddress, signatureMessage } = usePayment();
+  const { address: payerAddress, token, chainId } = usePayer();
+  const { address: receiverAddress } = useReceiver();
+  const { symbol, amount, erc20ContractAddress, signatureMessage, decimals } =
+    usePayment();
 
   const isPaymentReady =
-    !!amount && !!erc20ContractAddress && !!signatureMessage;
+    !!amount &&
+    !!erc20ContractAddress &&
+    !!signatureMessage &&
+    !!symbol &&
+    typeof decimals === "number";
 
   let content = <ChooseToken />;
 
   if (isPaymentReady) {
-    content = <Confirmation />;
+    content = (
+      <Confirmation
+        chainId={chainId}
+        account={payerAddress!}
+        receiver={receiverAddress!}
+        amount={amount}
+        decimals={decimals}
+        erc20ContractAddress={erc20ContractAddress}
+        signatureMessage={signatureMessage}
+        symbol={symbol}
+      />
+    );
   } else if (token) {
     content = <RequestToken />;
   }
@@ -30,9 +47,9 @@ export function ReceivePayment() {
       flexDirection="column"
       alignItems="center"
       gap="26px"
-      marginTop="16px"
+      marginTop="60px"
     >
-      <Introduction isPaymentReady={isPaymentReady} />
+      {!isPaymentReady && <Introduction />}
       {content}
     </Box>
   );

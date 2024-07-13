@@ -1,17 +1,17 @@
 import { useWeb3Modal, useWeb3ModalState } from "@web3modal/wagmi-react-native";
 import React, { useEffect, useState } from "react";
+import { isAddress } from "viem";
 import { useAccountEffect, useDisconnect } from "wagmi";
 
 import { Button } from "../Button/Button";
 import { Box, Input, Text } from "../main";
+import { Spinner } from "../Spinner/Spinner";
 import { Touchable } from "../Touchable/Touchable";
 
-import { useReceiver } from "@/store/receiver";
 import { useEnsAddress } from "@/hooks/useEnsAddress";
-import { isAddress } from "viem";
-import { toCheckSumAddress } from "@/utils/toChecksumAddress";
+import { useReceiver } from "@/store/receiver";
 import { Step, useStep } from "@/store/steps";
-import { Spinner } from "../Spinner/Spinner";
+import { toCheckSumAddress } from "@/utils/toChecksumAddress";
 
 export function ConnectOrEnterAddress() {
   const { open: openWeb3Modal } = useWeb3Modal();
@@ -25,6 +25,7 @@ export function ConnectOrEnterAddress() {
     } catch {
       /* ignore */
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { setStep } = useStep();
@@ -102,17 +103,15 @@ export function ConnectOrEnterAddress() {
               fontSize: "16px",
               borderRadius: "12px",
             }}
-            textProps={{
-              textAlign: "center",
-              color: "black",
-              fontFamily: "SF-Bold",
-            }}
             onPress={() => {
               setAddress(toCheckSumAddress(address));
               setStep(Step.Nfc);
             }}
+            withText={false}
           >
-            {`Confirm`}
+            <Text textAlign="center" color="black" fontFamily="SF-Bold">
+              Confirm
+            </Text>
           </Button>
         )}
       </Box>
@@ -160,16 +159,14 @@ export function ConnectOrEnterAddress() {
           fontSize: "16px",
           borderRadius: "80px",
         }}
-        textProps={{
-          textAlign: "center",
-          color: "yellow10",
-          fontFamily: "SF-Bold",
-        }}
         onPress={() => {
           setShouldEnterWalletAddress(true);
         }}
+        withText={false}
       >
-        {`Enter Wallet Address`}
+        <Text textAlign="center" color="yellow10" fontFamily="SF-Bold">
+          Enter Wallet Address
+        </Text>
       </Button>
     </Box>
   );

@@ -22,6 +22,7 @@ interface TokenProps {
 
 interface ChainProps {
   chainId: ChainId;
+  currentChainId: ChainId;
   onPress: () => void;
 }
 
@@ -50,6 +51,7 @@ function Token({ src, name, balance, onPress }: TokenProps) {
       borderRadius="12px"
       borderColor="grey70"
       borderWidth={1}
+      minWidth="120px"
       opacity={isDisabled ? 0.5 : 1}
     >
       <Image source={src} style={{ height: 30, width: 30, borderRadius: 8 }} />
@@ -66,7 +68,7 @@ function Token({ src, name, balance, onPress }: TokenProps) {
             fontSize="12px"
             marginTop="4px"
           >
-            Not enough balance
+            No balance
           </Text>
         ) : (
           <Text
@@ -99,7 +101,7 @@ function Token({ src, name, balance, onPress }: TokenProps) {
   );
 }
 
-function Chain({ chainId, onPress }: ChainProps) {
+function Chain({ chainId, currentChainId, onPress }: ChainProps) {
   return (
     <Touchable
       active="shrink"
@@ -110,7 +112,12 @@ function Chain({ chainId, onPress }: ChainProps) {
     >
       <Image
         source={chainImages[chainId as keyof typeof chainImages].src}
-        style={{ height: 30, width: 30, borderRadius: 999 }}
+        style={{
+          height: 30,
+          width: 30,
+          borderRadius: 999,
+          opacity: currentChainId === chainId ? 1 : 0.5,
+        }}
       />
     </Touchable>
   );
@@ -145,11 +152,12 @@ export function ChooseToken() {
         flexWrap="wrap"
         gap="20px"
       >
-        {[ChainId.Mainnet, ChainId.Optimism, ChainId.Base].map((chainId) => (
+        {[ChainId.Mainnet, ChainId.Optimism, ChainId.Base].map((_chainId) => (
           <Chain
-            key={chainId}
-            chainId={chainId}
-            onPress={() => setChainId(chainId)}
+            key={_chainId}
+            chainId={_chainId}
+            currentChainId={chainId}
+            onPress={() => setChainId(_chainId)}
           />
         ))}
       </Box>
@@ -169,9 +177,9 @@ export function ChooseToken() {
 
           return (
             <Token
-              key={token.name}
-              name={token.name}
-              src={token.src}
+              key={token?.name}
+              name={token?.name}
+              src={token?.src}
               balance={balance}
               onPress={() =>
                 setToken({ symbol: symbol as Token_type, balance })

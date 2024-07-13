@@ -1,18 +1,6 @@
 import { Box, Text } from "../main";
 
-interface IntroductionProps {
-  isPaymentReady: boolean;
-}
-
-export function Introduction({ isPaymentReady }: IntroductionProps) {
-  const text = isPaymentReady
-    ? "Requesting signature verification and sending the token."
-    : "Choose the token and amount you want to receive, then send a request.";
-
-  const title = isPaymentReady
-    ? "Confirming payment..."
-    : "Choose a token and amount";
-
+export function Introduction() {
   return (
     <Box flexDirection="column" alignItems="center" maxWidth="320px" gap="16px">
       <Text
@@ -21,7 +9,7 @@ export function Introduction({ isPaymentReady }: IntroductionProps) {
         textAlign="center"
         fontSize="20px"
       >
-        {title}
+        Choose a token and amount
       </Text>
 
       <Text
@@ -29,9 +17,9 @@ export function Introduction({ isPaymentReady }: IntroductionProps) {
         fontFamily="SF-Bold"
         textAlign="center"
         fontSize="12px"
-        maxWidth="280px"
+        style={{maxWidth:240}}
       >
-        {text}
+        Choose the chain, token, and amount you want to receive.
       </Text>
     </Box>
   );

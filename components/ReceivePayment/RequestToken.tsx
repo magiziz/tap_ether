@@ -9,6 +9,7 @@ import { Box, Input, Text } from "../main";
 import { usePayer } from "@/store/payer";
 import { usePayment } from "@/store/payment";
 import { useReceiver } from "@/store/receiver";
+import type { Token } from "@/utils/tokens";
 import { tokenAddresses } from "@/utils/tokens";
 
 export function RequestToken() {
@@ -21,9 +22,11 @@ export function RequestToken() {
     setAmount: setPaymentAmount,
     setSignatureMessage,
     setErc20ContractAddress,
+    setDecimals,
+    setSymbol,
   } = usePayment();
 
-  const { balance, symbol } = token;
+  const { balance = "0", symbol = "usdc" } = token ?? {};
 
   const onChangeText = (text: string) => {
     if (isNaN(Number(text))) {
@@ -89,8 +92,14 @@ export function RequestToken() {
           const message = `${receiverAddress} has requested you to send ${amount} ${symbol}. Please sign the message to confirm.`;
 
           setPaymentAmount(amount);
-          setErc20ContractAddress(tokenAddresses[chainId][symbol] as Address);
+          setErc20ContractAddress(
+            tokenAddresses[chainId as keyof typeof tokenAddresses][
+              symbol as Token
+            ] as Address
+          );
           setSignatureMessage(message);
+          setDecimals(symbol === "usdc" ? 6 : 18);
+          setSymbol(symbol);
         }}
         withText={false}
       >

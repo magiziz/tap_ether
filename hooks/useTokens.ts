@@ -57,9 +57,12 @@ export function getSupportedTokenBalances({
       tokenAddresses[chainId]?.usdc.toLowerCase() as keyof typeof tokens
     ] ?? "0";
   const dai =
-    tokens[tokenAddresses[chainId]?.dai as keyof typeof tokens] ?? "0";
+    tokens[tokenAddresses[chainId]?.dai.toLowerCase() as keyof typeof tokens] ??
+    "0";
   const weth =
-    tokens[tokenAddresses[chainId]?.weth as keyof typeof tokens] ?? "0";
+    tokens[
+      tokenAddresses[chainId]?.weth.toLowerCase() as keyof typeof tokens
+    ] ?? "0";
 
   return { usdc, dai, weth };
 }

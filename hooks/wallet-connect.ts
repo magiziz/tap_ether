@@ -2,14 +2,43 @@ import { useMutation } from "@tanstack/react-query";
 import { mainnet, polygon, arbitrum, optimism, base } from "@wagmi/core/chains";
 import Config from "react-native-config";
 import type { Address, WalletClient } from "viem";
-import { createWalletClient, custom } from "viem";
+import {
+  createWalletClient,
+  custom,
+  erc20Abi,
+  parseUnits,
+  verifyMessage,
+} from "viem";
 import { createConfig, http, type Connector } from "wagmi";
 import { walletConnect } from "wagmi/connectors";
 
 import { chains, metadata } from "@/components/AppKitProvider/AppKitProvider";
+import type { ChainId } from "@/utils/tokens";
+import { getChain, getClient } from "@/viem/client";
 
 interface UseWalletConnectUriParameters {
   onConnect: ({ address }: { address: Address }) => void;
+}
+
+export enum PaymentStep {
+  Processing = "PROCESSING",
+  ChangeChain = "CHAIN_CHAIN",
+  SignatureVerification = "SIGNATURE_VERIFICATION",
+  SigningTransaction = "SIGNING_TRANSACTION",
+}
+
+interface RequestWalletConnectPaymentParameters {
+  receiver: Address;
+  account: Address;
+  amount: string;
+  chainId: ChainId;
+  decimals: number;
+  erc20ContractAddress: Address;
+  signatureMessage: string;
+}
+
+interface UseRequestWalletConnectPaymentParameters {
+  onPaymentStepChange: (paymentStep: PaymentStep) => void;
 }
 
 let walletConnectConnector: Connector;
@@ -61,6 +90,7 @@ async function getWalletConnectUri({
       if (address) {
         onConnect?.({ address });
       } else {
+        // eslint-disable-next-line no-console
         console.log(`❌ WalletConnect didn't return address`);
       }
     });
@@ -72,6 +102,67 @@ async function getWalletConnectUri({
   });
 }
 
+async function requestWalletConnectPayment(
+  {
+    receiver,
+    account,
+    amount,
+    chainId,
+    erc20ContractAddress,
+    decimals,
+    signatureMessage,
+  }: RequestWalletConnectPaymentParameters,
+  onPaymentStepChange: (paymentStep: PaymentStep) => void
+) {
+  try {
+    if (!walletClient) {
+      throw new Error(`walletClient not initialized`);
+    }
+
+    const connectedChainId = (await walletClient.getChainId()) as ChainId;
+
+    if (chainId !== connectedChainId) {
+      onPaymentStepChange(PaymentStep.ChangeChain);
+      await walletClient.switchChain({ id: chainId });
+    }
+
+    onPaymentStepChange(PaymentStep.SignatureVerification);
+    const signature = await walletClient.signMessage({
+      account,
+      message: signatureMessage,
+    });
+
+    const valid = await verifyMessage({
+      address: account,
+      message: signatureMessage,
+      signature,
+    });
+
+    if (!valid) {
+      throw new Error(`Invalid signature`);
+    }
+
+    const client = getClient(chainId);
+
+    const { request } = await client.simulateContract({
+      account,
+      address: erc20ContractAddress,
+      abi: erc20Abi,
+      functionName: "transfer",
+      chain: getChain(chainId),
+      args: [receiver, parseUnits(amount.toString(), decimals)],
+    });
+
+    onPaymentStepChange(PaymentStep.Processing);
+    const transactionHash = await walletClient.writeContract(request);
+
+    return transactionHash;
+  } catch (err) {
+    onPaymentStepChange(PaymentStep.Processing);
+    throw err;
+  }
+}
+
 export function useFetchWalletConnectUri({
   onConnect,
 }: UseWalletConnectUriParameters) {
@@ -80,6 +171,21 @@ export function useFetchWalletConnectUri({
     mutationFn: ({ mobileLink }: { mobileLink: string }) =>
       getWalletConnectUri({ mobileLink, onConnect }).then(
         (qrUri) => qrUri as string
+      ),
+  });
+}
+
+export function useRequestWalletConnectPayment({
+  onPaymentStepChange,
+}: UseRequestWalletConnectPaymentParameters) {
+  return useMutation({
+    mutationKey: ["requestWalletConnectPayment"],
+    mutationFn: (
+      requestWalletConnectPaymentParameters: RequestWalletConnectPaymentParameters
+    ) =>
+      requestWalletConnectPayment(
+        requestWalletConnectPaymentParameters,
+        onPaymentStepChange
       ),
   });
 }

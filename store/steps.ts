@@ -12,6 +12,6 @@ interface StepState {
 }
 
 export const useStep = create<StepState>((set) => ({
-  step: Step.ReceivePayment,
+  step: Step.ConnectWallet,
   setStep: (step) => set(() => ({ step })),
 }));

@@ -10,7 +10,7 @@ export function ConnectWallet() {
       flexDirection="column"
       alignItems="center"
       gap="26px"
-      marginTop="16px"
+      marginTop="60px"
     >
       <Introduction />
       <ConnectOrEnterAddress />

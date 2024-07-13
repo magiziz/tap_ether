@@ -12,7 +12,7 @@ const NfcAirdrop = () => {
       flexDirection="column"
       alignItems="center"
       gap="26px"
-      marginTop="16px"
+      marginTop="60px"
     >
       <Introduction />
       <ChooseWallet />
