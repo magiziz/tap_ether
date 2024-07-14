@@ -8,4 +8,6 @@
 
 3. We recommend using `yarn` as the package manager. Initialize the project dependencies by running `yarn install` in the project directory.
 
-4. Execute `yarn run ios` to build the project and set up the `ios` folder. This command also starts the iOS simulator with the project running.
+4. Create a `.env` file in the root directory of the project. Refer to the `.env.example` file for guidance on setting up the required environment variables.
+
+5. Execute `yarn run ios` to build the project and set up the `ios` folder. This command also starts the iOS simulator with the project running.
