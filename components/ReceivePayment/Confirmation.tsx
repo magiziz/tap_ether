@@ -178,7 +178,7 @@ export function Confirmation({
 
           <Image
             source={chainImages[chainId].src}
-            style={{ height: 20, width: 20, borderRadius: 8 }}
+            style={{ height: 20, width: 20, borderRadius: 999 }}
           />
         </Box>
 

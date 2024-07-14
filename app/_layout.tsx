@@ -1,12 +1,16 @@
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
 import { useEffect, useState } from "react";
+import { LogBox } from "react-native";
 
 import AppKitProvider from "@/components/AppKitProvider/AppKitProvider";
 import { Layout } from "@/components/Layout/Layout";
 import { chainImages } from "@/utils/chains";
 import { tokens } from "@/utils/tokens";
 import { wallets } from "@/utils/wallets";
+
+// Ignore all log notifications
+LogBox.ignoreAllLogs(true);
 
 const App = () => {
   const [isFontsLoaded, setIsFontsLoaded] = useState(false);

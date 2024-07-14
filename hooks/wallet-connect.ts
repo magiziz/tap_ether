@@ -150,7 +150,7 @@ async function requestWalletConnectPayment(
       abi: erc20Abi,
       functionName: "transfer",
       chain: getChain(chainId),
-      args: [receiver, parseUnits(amount.toString(), decimals)],
+      args: [receiver, parseUnits(amount, decimals)],
     });
 
     onPaymentStepChange(PaymentStep.Processing);
