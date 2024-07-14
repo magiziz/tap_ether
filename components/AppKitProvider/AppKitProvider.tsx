@@ -15,10 +15,11 @@ const queryClient = new QueryClient();
 const projectId = Config.PROJECT_ID!;
 
 export const metadata = {
-  name: "Web3Modal RN",
-  description: "Web3Modal RN Example",
-  url: "https://web3modal.com",
-  icons: ["https://avatars.githubusercontent.com/u/37784886"],
+  name: "Tap Ether",
+  description:
+    "Tap Ether is a decentralized application that allows you to tap and send ether to your friends.",
+  url: "https://ethglobal.com",
+  icons: [],
 };
 
 export const chains = [mainnet, optimism, base] as const;

@@ -9,7 +9,7 @@ export function Introduction() {
         textAlign="center"
         fontSize="20px"
       >
-        Payer wallet
+        Client wallet
       </Text>
 
       <Text
